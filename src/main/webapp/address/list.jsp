@@ -19,7 +19,7 @@
     <tbody>
     <c:forEach items="${lists}" var="ad">
         <tr>
-            <td>${ad.name}</td>
+            <td><a href="view?num=${ad.num}">${ad.name}</a></td>
             <td>${ad.addr}</td>
             <td>${ad.zipcode}</td>
             <td>${ad.tel}</td>

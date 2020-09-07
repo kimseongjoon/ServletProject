@@ -64,6 +64,7 @@ public class SAddressDAOImpl implements SAddressDAO{
 
             while (rs.next()) {
                 AddressDTO dt = new AddressDTO();
+                dt.setNum(rs.getInt("num"));
                 dt.setName(rs.getString("name"));
                 dt.setAddr(rs.getString("addr"));
                 dt.setZipcode(rs.getString("zipcode"));
@@ -84,7 +85,34 @@ public class SAddressDAOImpl implements SAddressDAO{
 
     @Override
     public AddressDTO getAddressView(int num) {
-        return null;
+        Connection con = null;
+        Statement st = null;
+        ResultSet rs = null;
+        AddressDTO dt = null;
+
+        try {
+            con = getConnection();
+            String sql = "SELECT * FROM ADDRESS WHERE NUM=" + num;
+            st = con.createStatement();
+            rs = st.executeQuery(sql);
+
+            System.out.println("getAddressView -> " + sql);
+            if (rs.next()) {
+                dt = new AddressDTO();
+                dt.setName(rs.getString("name"));
+                dt.setAddr(rs.getString("addr"));
+                dt.setZipcode(rs.getString("zipcode"));
+                dt.setTel(rs.getString("tel"));
+            }
+        } catch (NamingException e) {
+            e.printStackTrace();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            closeConnection(con, null, st, rs);
+        }
+
+        return dt;
     }
 
     @Override
