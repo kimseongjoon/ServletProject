@@ -99,6 +99,7 @@ public class SAddressDAOImpl implements SAddressDAO{
             System.out.println("getAddressView -> " + sql);
             if (rs.next()) {
                 dt = new AddressDTO();
+                dt.setNum(num);
                 dt.setName(rs.getString("name"));
                 dt.setAddr(rs.getString("addr"));
                 dt.setZipcode(rs.getString("zipcode"));
@@ -117,12 +118,46 @@ public class SAddressDAOImpl implements SAddressDAO{
 
     @Override
     public void addrUpdate(AddressDTO addressDTO) {
+        Connection con = null;
+        PreparedStatement ps = null;
 
+        try {
+            con = getConnection();
+
+            String sql = "UPDATE ADDRESS SET NAME=?, TEL=?, ZIPCODE=?, ADDR=? WHERE NUM=" + addressDTO.getNum();
+
+            ps = con.prepareStatement(sql);
+            ps.setString(1, addressDTO.getName());
+            ps.setString(2, addressDTO.getTel());
+            ps.setString(3, addressDTO.getZipcode());
+            ps.setString(4, addressDTO.getAddr());
+
+            System.out.println("addrUpdate -> " + sql);
+            ps.executeUpdate();
+        } catch (NamingException | SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeConnection(con, ps, null, null);
+        }
     }
 
     @Override
     public void addrDelete(int num) {
+        Connection con = null;
+        Statement st = null;
 
+        try {
+            con = getConnection();
+            st = con.createStatement();
+
+            String sql = "DELETE FROM ADDRESS WHERE NUM=" + num;
+            System.out.println("addrDelete -> " + sql);
+            st.executeUpdate(sql);
+        } catch (NamingException | SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeConnection(con, null, st, null);
+        }
     }
 
     @Override

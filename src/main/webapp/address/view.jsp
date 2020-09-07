@@ -36,9 +36,16 @@
 <html>
 <head>
     <title>Title</title>
+    <script>
+        function del() {
+            if (confirm("정말 삭제할까요?")) {
+                location.href = "delete?num=" + ${address.num};
+            }
+        }
+    </script>
 </head>
 <body>
-<form action="updatePro.jsp" method="post">
+<form action="update" method="post">
     <input type="hidden" name="num" value="${address.num}">
     <table>
         <tr>
@@ -64,8 +71,8 @@
             <td colspan="2">
                 <input type="submit" value="수정">
                 <input type="button" value="전체보기" onclick="location.href='list'">
-                <input type="reset" value="삭제" onclick="">
-                <input type="reset" value="자바스크립트삭제" onclick="">
+                <input type="reset" value="삭제" onclick="location.href = 'delete?num=${address.num}'">
+                <input type="reset" value="자바스크립트삭제" onclick="del()">
             </td>
         </tr>
     </table>
