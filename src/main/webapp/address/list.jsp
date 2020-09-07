@@ -27,5 +27,13 @@
     </c:forEach>
     </tbody>
 </table>
+<form action="searchList">
+    <select name="field">
+        <option value="name">이름</option>
+        <option value="tel">전화번호</option>
+    </select>
+    <input type="text" name="word">
+    <button>찾기</button>
+</form>
 </body>
 </html>

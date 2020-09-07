@@ -167,7 +167,36 @@ public class SAddressDAOImpl implements SAddressDAO{
 
     @Override
     public ArrayList<AddressDTO> getAddressSearch(String field, String word) {
-        return null;
+        Connection con = null;
+        Statement st = null;
+        ResultSet rs = null;
+        ArrayList<AddressDTO> arr = new ArrayList<>();
+
+        try {
+            con = getConnection();
+            String sql = "SELECT * FROM ADDRESS WHERE " + field + " like '%" + word + "%'";
+            System.out.println("getAddressSearch -> " + sql);
+
+            st = con.createStatement();
+            rs = st.executeQuery(sql);
+            while (rs.next()) {
+                AddressDTO dt = new AddressDTO();
+                dt.setName(rs.getString("name"));
+                dt.setAddr(rs.getString("addr"));
+                dt.setZipcode(rs.getString("zipcode"));
+                dt.setTel(rs.getString("tel"));
+
+                arr.add(dt);
+            }
+        } catch (NamingException e) {
+            e.printStackTrace();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            closeConnection(con, null, st, rs);
+        }
+
+        return arr;
     }
 
     @Override
