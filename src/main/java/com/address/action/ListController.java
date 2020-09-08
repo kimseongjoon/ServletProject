@@ -20,6 +20,7 @@ public class ListController extends HttpServlet {
 
         ArrayList<AddressDTO> arryList = dao.getAddressList();
         req.setAttribute("lists", arryList);
+        req.setAttribute("count", dao.getCount());
 
         RequestDispatcher rd = req.getRequestDispatcher("list.jsp");
         rd.forward(req, resp);

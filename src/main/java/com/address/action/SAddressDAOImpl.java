@@ -162,7 +162,31 @@ public class SAddressDAOImpl implements SAddressDAO{
 
     @Override
     public int getCount() {
-        return 0;
+        Connection con = null;
+        Statement st = null;
+        ResultSet rs = null;
+        int count = 0;
+
+        try {
+            con = getConnection();
+            String sql = "SELECT count(*) FROM ADDRESS";
+            System.out.println("getCount -> " + sql);
+
+            st = con.createStatement();
+            rs = st.executeQuery(sql);
+
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (NamingException e) {
+            e.printStackTrace();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            closeConnection(con, null, st, rs);
+        }
+
+        return count;
     }
 
     @Override
@@ -201,7 +225,31 @@ public class SAddressDAOImpl implements SAddressDAO{
 
     @Override
     public int getSearchCount(String field, String word) {
-        return 0;
+        Connection con = null;
+        Statement st = null;
+        ResultSet rs = null;
+        int count = 0;
+
+        try {
+            con = getConnection();
+            String sql = "SELECT count(*) FROM ADDRESS WHERE " + field + " like '%" + word + "%'";
+            System.out.println("getSearchCount -> " + sql);
+
+            st = con.createStatement();
+            rs = st.executeQuery(sql);
+
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (NamingException e) {
+            e.printStackTrace();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            closeConnection(con, null, st, rs);
+        }
+
+        return count;
     }
 
     @Override
