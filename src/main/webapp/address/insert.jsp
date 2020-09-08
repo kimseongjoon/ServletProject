@@ -11,7 +11,7 @@
     <title>Title</title>
     <script>
         function zipfinder() {
-            window.open("zipCheck.jsp", "", "width=700 height=400");
+            window.open("zipCheck", "", "width=700 height=400");
         }
     </script>
 </head>

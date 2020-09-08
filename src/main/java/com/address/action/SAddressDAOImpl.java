@@ -254,7 +254,37 @@ public class SAddressDAOImpl implements SAddressDAO{
 
     @Override
     public ArrayList<ZipcodeDTO> getZipcodeRead(String dong) {
-        return null;
+        Connection con = null;
+        Statement st = null;
+        ResultSet rs = null;
+        ArrayList<ZipcodeDTO> arr = new ArrayList<>();
+
+        try {
+            con = getConnection();
+            String sql = "SELECT * FROM ZIPCODE WHERE DONG like '%" + dong + "%'";
+            System.out.println("getAddressSearch -> " + sql);
+
+            st = con.createStatement();
+            rs = st.executeQuery(sql);
+            while (rs.next()) {
+                ZipcodeDTO zd = new ZipcodeDTO();
+                zd.setZipcode(rs.getString("ZIPCODE"));
+                zd.setSido(rs.getString("SIDO"));
+                zd.setGugun(rs.getString("GUGUN"));
+                zd.setDong(rs.getString("DONG"));
+                zd.setBunji(rs.getString("BUNJI"));
+
+                arr.add(zd);
+            }
+        } catch (NamingException e) {
+            e.printStackTrace();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            closeConnection(con, null, st, rs);
+        }
+
+        return arr;
     }
 
     private void closeConnection(Connection con, PreparedStatement ps, Statement st, ResultSet rs) {
